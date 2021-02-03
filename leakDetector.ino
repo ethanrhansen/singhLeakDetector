@@ -192,7 +192,7 @@ void makeIFTTTRequest(const char* key) {
   while(client.available()){
     Serial.write(client.read());
   }
-  
+  //Closes IFTTT connection
   Serial.println("\nclosing connection");
   client.stop(); 
 }
