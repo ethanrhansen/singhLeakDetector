@@ -157,6 +157,7 @@ void makeIFTTTRequest(const char* key) {
   Serial.print("Connecting to "); 
   Serial.print(server);
   
+  //Connects to the IFTTT website
   WiFiClient client;
   int retries = 5;
   while(!!!client.connect(server, 80) && (retries-- > 0)) {
@@ -170,16 +171,16 @@ void makeIFTTTRequest(const char* key) {
   Serial.print("Request resource: "); 
   Serial.println(key);
 
-  // Values to post to sheets
+  // Average resistance value to be logged to the google sheets file
   String jsonObject = String("{\"value1\":\"") + Ravg + "\"}";
-                      
+  // Pings the URL to Trigger the Event                    
   client.println(String("POST ") + key + " HTTP/1.1");
   client.println(String("Host: ") + server); 
   client.println("Connection: close\r\nContent-Type: application/json");
   client.print("Content-Length: ");
   client.println(jsonObject.length());
   client.println();
-  client.println(jsonObject);
+  client.println(jsonObject); //Outputs the average resistance value to IFTTT
         
   int timeout = 5 * 10; // 5 seconds             
   while(!!!client.available() && (timeout-- > 0)){
