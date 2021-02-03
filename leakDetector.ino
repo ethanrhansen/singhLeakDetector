@@ -1,6 +1,5 @@
 #include <ESP8266WiFi.h>
-#include <NTPClient.h>
-#include <WiFiUdp.h>
+
 
 //Ohmmeter vars
 int analogPin= A0; //The analog pin that we read the voltage from the "ohmmeter" circuit is measured.
@@ -48,15 +47,6 @@ const char* mailSend = String("/trigger/" + mailTrig + "/with/key/" + webKey).c_
 const char* server = "maker.ifttt.com";
 
 
-//Extra Portion for getting the current time.
-// Define NTP Client to get time
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP);
-
-// Variables to save date and time
-String formattedDate;
-String dayStamp;
-String timeStamp;
 
 void setup() {
   Serial.begin(115200);
@@ -81,14 +71,6 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
-// Initialize a NTPClient to get time
-  timeClient.begin();
-  // Set offset time in seconds to adjust for your timezone, for example:
-  // GMT +1 = 3600
-  // GMT +8 = 28800
-  // GMT -1 = -3600
-  // GMT 0 = 0
-  timeClient.setTimeOffset(-25200);
 
 }
 
@@ -97,23 +79,6 @@ int value = 0;
 void loop() {
   delay(500);
   ++value;
-
-//Getting the date and time
-  while(!timeClient.update()) {
-    timeClient.forceUpdate();
-  }
-  // The formattedDate comes with the following format:
-  // 2018-05-28T16:00:13Z
-  // We need to extract date and time
-  formattedDate = timeClient.getFormattedDate();
-  Serial.println(formattedDate);
-
-  // Extract date
-  int splitT = formattedDate.indexOf("T");
-  dayStamp = formattedDate.substring(0, splitT);
-  Serial.print("DATE: ");
-  Serial.println(dayStamp);
-  delay(500);
 
 //Ohmmeter Function
 
@@ -216,7 +181,7 @@ void makeIFTTTRequest(const char* key) {
   Serial.println(key);
 
   // Values to post to sheets
-  String jsonObject = String("{\"value1\":\"") + Ravg + "\",\"value2\":\"" + (dayStamp) + "\"}";
+  String jsonObject = String("{\"value1\":\"") + Ravg + "\"}";
                       
   client.println(String("POST ") + key + " HTTP/1.1");
   client.println(String("Host: ") + server); 
