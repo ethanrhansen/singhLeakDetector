@@ -13,7 +13,7 @@ int Vin= 3.3; //input voltage to the circuit, from the voltage pin on the ESP826
 float Rk= 10000;//known resistor value (in ohms)
 float Rthresh = 70000;//threshold resistance, below which a notification should be sent
 
-float Vread= 0; //placeholder variable used in the resistance calculation
+float VRead= 0; //placeholder variable used in the resistance calculation
 float Vout= 0; //initialize variable for the measured voltage on the analog pin 
 float Rm= 0; //initialize measured resitance variable
 float avgCount= 0; //initialize loop counting varaible for taking the average resistance
