@@ -152,6 +152,11 @@ void loop() {
   Serial.println("closing connection");
 }
 
+//Function for connecting to wifi
+void wifiConnect() {
+  
+}
+
 // Make an HTTP request to the IFTTT web service
 void makeIFTTTRequest(const char* key) {
   Serial.print("Connecting to "); 
